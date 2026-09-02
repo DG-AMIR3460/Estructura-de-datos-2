@@ -26,7 +26,7 @@ public class Arbol {
         this.raiz = null;
     } 
     
-    public void agregar (char valor){
+    public void agregar (int valor){
         Nodo newnodo = new Nodo(valor);
         if(this.raiz == null){
             this.raiz = newnodo;
@@ -93,13 +93,58 @@ public class Arbol {
         
 }
     
-    public int pesar(Nodo nodo) {
+    public int pesoArbol(Nodo nodo) {
             if (nodo == null) {
                 return 0;
             }
-            return 1 + pesar(nodo.getIzquierdo()) + pesar(nodo.getDerecho());
+            return 1 + pesoArbol(nodo.getIzquierdo()) + pesoArbol(nodo.getDerecho());
         }
-    
+
+    public int contarHojas(Nodo nodo) {
+        if (nodo == null) {
+            return 0;
+        }
+        if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
+            return 1;
+        }
+        return contarHojas(nodo.getIzquierdo()) + contarHojas(nodo.getDerecho());
+    }
+
+    public void eliminar(int valor) {
+        raiz = eliminarRecursivo(raiz, valor);
+    }
+
+    private Nodo encontrarMinimo(Nodo nodo) {
+        while (nodo.getIzquierdo() != null) {
+            nodo = nodo.getIzquierdo();
+        }
+        return nodo;
+    }
+
+    private Nodo eliminarRecursivo(Nodo nodo, int valor) {
+        if (nodo == null) {
+            return null;
+        }
+
+        if (valor < nodo.getDato()) {
+            nodo.setIzquierdo(eliminarRecursivo(nodo.getIzquierdo(), valor));
+        } else if (valor > nodo.getDato()) {
+            nodo.setDerecho(eliminarRecursivo(nodo.getDerecho(), valor));
+        } else {
+            if (nodo.getIzquierdo() == null) {
+                return nodo.getDerecho();
+            } else if (nodo.getDerecho() == null) {
+                return nodo.getIzquierdo();
+            }
+
+            Nodo sucesor = encontrarMinimo(nodo.getDerecho());
+            nodo.setDato(sucesor.getDato());
+            nodo.setDerecho(eliminarRecursivo(nodo.getDerecho(), sucesor.getDato()));
+        }
+
+        return nodo;
+    }
+
     public void impila(Stack pila, Nodo p){
         pila.push(p);
         }
@@ -119,11 +164,11 @@ public class Arbol {
         return getcol(h - 1) + getcol(h - 1) + 1;
     }
     
-    public static void printTree(char[][] M, Nodo root, int col, int row, int height) {
+    public static void printTree(int[][] M, Nodo root, int col, int row, int height) {
         if (root == null) {
             return;
         }
-        M[row][col] = root.getDato();
+        M[row][col] = root.getDato() + 1;
         printTree(M, root.getIzquierdo(), col - (int) Math.pow(2, height - 2), row + 1, height - 1);
         printTree(M, root.getDerecho(), col + (int) Math.pow(2, height - 2), row + 1, height - 1);
     }
@@ -131,14 +176,14 @@ public class Arbol {
     public void TreePrinter() {
         int h = alturaArbol(this.raiz);
         int col = getcol(h);
-        char[][] M = new char[h][col];
+        int[][] M = new int[h][col];
         printTree(M, this.raiz, col / 2, 0, h);
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < col; j++) {
                 if (M[i][j] == 0) {
-                    System.out.print("  ");
+                    System.out.print("   ");
                 } else {
-                    System.out.print(M[i][j] + " ");
+                    System.out.print(M[i][j] - 1 + " ");
                 }
             }
             System.out.println();
@@ -152,7 +197,7 @@ public class Arbol {
         return Math.max(alturaArbol(n1.getIzquierdo()), alturaArbol(n1.getDerecho())) + 1;
     }
        
-    public void preordenIT( Nodo raiz){
+    public void preordenIter( Nodo raiz){
        Stack <Nodo> pila = new Stack <>();
        Nodo p = raiz;
        
@@ -169,7 +214,7 @@ public class Arbol {
        System.out.println("");
    }
    
-    public void inordenIT( Nodo raiz){
+    public void inordenIter( Nodo raiz){
        Stack <Nodo> pila = new Stack <>();
        Nodo p = raiz;
        
@@ -186,7 +231,7 @@ public class Arbol {
        System.out.println("");
    }
    
-    public void posordenIT( Nodo raiz){
+    public void posordenIter( Nodo raiz){
        Stack <Nodo> pila = new Stack <>();
        Nodo p = raiz;
        Nodo visitado = null;

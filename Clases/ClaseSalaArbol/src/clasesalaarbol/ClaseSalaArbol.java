@@ -15,24 +15,55 @@ public class ClaseSalaArbol {
      */
     public static void main(String[] args) {
         Arbol arbolito = new Arbol();
-        arbolito.agregar('M');
-        arbolito.agregar('E');
-        arbolito.agregar('Z');
-        arbolito.agregar('A');
-        arbolito.agregar('G');
-        arbolito.agregar('P');
-        arbolito.agregar('Q');
-        arbolito.TreePrinter();
-        arbolito.preorden(arbolito.getRaiz());
-        System.out.println("");
-        arbolito.inorden(arbolito.getRaiz());
-        System.out.println("");
-        arbolito.posorden(arbolito.getRaiz());
-        System.out.println(arbolito.pesar(arbolito.getRaiz()));
-        arbolito.preordenIT(arbolito.getRaiz());
-        arbolito.inordenIT(arbolito.getRaiz());
-        arbolito.posordenIT(arbolito.getRaiz());
+        arbolito.agregar(8);
+        arbolito.agregar(3);
+        arbolito.agregar(1);
+        arbolito.agregar(20);
+        arbolito.agregar(10);
+        arbolito.agregar(5);
+        arbolito.agregar(4);
+        System.out.println("Imprimir árbol (rotado)");
+        arbolito.imprimir(arbolito.getRaiz(), 0);
 
+        System.out.println("Recorrido Preorden");
+        arbolito.preorden(arbolito.getRaiz());
+
+        System.out.println("Recorrido Inorden ");
+        arbolito.inorden(arbolito.getRaiz());
+
+        System.out.println("Recorrido Posorden ");
+        arbolito.posorden(arbolito.getRaiz());
+
+        System.out.println(" Preorden Iterativo ");
+        arbolito.preordenIter(arbolito.getRaiz());
+
+        System.out.println(" Posorden Iterativo ");
+        arbolito.posordenIter(arbolito.getRaiz());
+
+        System.out.println("Inorden Iterativo ");
+        arbolito.inordenIter(arbolito.getRaiz());
+
+        System.out.println("Peso del arbol ");
+        System.out.println("Peso: " + arbolito.pesoArbol(arbolito.getRaiz()));
+
+        System.out.println("Altura del arbol");
+        System.out.println("Altura: " + Arbol.alturaArbol(arbolito.getRaiz()));
+
+        System.out.println("Cantidad de hojas");
+        System.out.println("Hojas: " + arbolito.contarHojas(arbolito.getRaiz()));
+
+        System.out.println("TreePrinter (formato matricial)");
+        arbolito.TreePrinter();
+
+        System.out.println("Eliminar el 3 (nodo con dos hijos)");
+        arbolito.eliminar(3);
+        System.out.println("Recorrido Inorden tras eliminar");
+        arbolito.inorden(arbolito.getRaiz());
+        System.out.println();
+        System.out.println("Peso tras eliminar: " + arbolito.pesoArbol(arbolito.getRaiz()));
+        System.out.println("Hojas tras eliminar: " + arbolito.contarHojas(arbolito.getRaiz()));
+        System.out.println("TreePrinter tras eliminar");
+        arbolito.TreePrinter();
     }
-    
+
 }
